@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIF Captcha</title>
+  <!-- Include Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="w-[500px] bg-white border border-gray-300 rounded-lg shadow-lg p-4 flex flex-col justify-between">
+    <h1 class="text-lg font-bold text-center text-gray-700">What is shown in the GIF?</h1>
+    <div class="flex justify-center">
+      <img src="<%= gifUrl %>" alt="Captcha GIF" class="max-h-[100px] rounded border border-gray-200">
+    </div>
+    <form id="captchaForm" class="mt-2 flex flex-col items-center">
+      <div id="message" class="mb-4 text-center text-sm font-medium text-gray-600"></div>
+      <div class="flex justify-around w-full mb-4">
+        <% options.forEach(option => { %>
+          <label class="flex flex-col items-center text-sm text-gray-600">
+            <input type="radio" name="answer" value="<%= option %>" class="mb-1">
+            <span><%= option %></span>
+          </label>
+        <% }); %>
+      </div>
+      <button type="submit" class="w-[150px] py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const correctAnswer = "<%= correctAnswer %>";
+    const captchaForm = document.getElementById("captchaForm");
+    const messageElement = document.getElementById("message");
+
+    captchaForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const selectedOption = document.querySelector('input[name="answer"]:checked')?.value;
+      if (selectedOption === correctAnswer) {
+        messageElement.textContent = "You are human!";
+        messageElement.className = "mb-4 text-center text-sm font-medium text-green-500";
+      } else {
+        messageElement.textContent = "You might be a bot!";
+        messageElement.className = "mb-4 text-center text-sm font-medium text-red-500";
+      }
+
+      // Wait for 2 seconds to show the message, then refresh the page
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
