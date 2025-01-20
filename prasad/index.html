@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable CAPTCHA</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex justify-center items-center h-screen bg-gray-100 m-0 font-sans">
+    <div class="flex flex-col items-center">
+        <!-- Question outside CAPTCHA -->
+        <div class="text-xl mb-4" id="question"></div>
+
+        <!-- CAPTCHA Canvas -->
+        <div class="border-2 border-black p-2 mb-4">
+            <canvas id="captcha" width="500" height="200"></canvas>
+        </div>
+
+        <!-- Message area -->
+        <div id="message" class="text-lg font-semibold"></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("captcha");
+        const ctx = canvas.getContext("2d");
+        const message = document.getElementById("message");
+        const question = document.getElementById("question");
+
+        // Define the objects with simpler colors
+        const objects = [
+            { type: "circle", color: "red" },
+            { type: "circle", color: "blue" },
+            { type: "circle", color: "green" },
+            { type: "circle", color: "yellow" },
+            { type: "square", color: "orange" },
+            { type: "square", color: "purple" },
+            { type: "triangle", color: "pink" },
+            { type: "triangle", color: "brown" },
+            { type: "rectangle", color: "lime" },
+            { type: "rectangle", color: "gray" },
+        ];
+
+        let target, positions;
+
+        function drawCaptcha() {
+            // Clear the canvas and reset the message
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            message.textContent = "";
+
+            // Select a random target object (target color and shape)
+            target = objects[Math.floor(Math.random() * objects.length)];
+
+            // Display the instruction outside the canvas
+            question.textContent = `Click on the ${target.color} ${target.type}`;
+
+            // Draw objects without overlap
+            positions = [];
+            objects.forEach((obj) => {
+                let x, y, overlaps;
+
+                // Ensure no overlap by checking distances
+                do {
+                    x = Math.random() * (canvas.width - 50);
+                    y = Math.random() * (canvas.height - 50);
+                    overlaps = positions.some(
+                        (pos) =>
+                            Math.sqrt((pos.x - x) ** 2 + (pos.y - y) ** 2) < 60
+                    );
+                } while (overlaps);
+
+                positions.push({ ...obj, x, y });
+
+                // Draw the object based on its type
+                ctx.fillStyle = obj.color;
+                if (obj.type === "circle") {
+                    ctx.beginPath();
+                    ctx.arc(x + 25, y + 25, 25, 0, 2 * Math.PI); // Draw circles
+                    ctx.fill();
+                } else if (obj.type === "square") {
+                    ctx.fillRect(x, y, 50, 50); // Draw squares
+                } else if (obj.type === "triangle") {
+                    ctx.beginPath();
+                    ctx.moveTo(x + 25, y); // Top point
+                    ctx.lineTo(x, y + 50); // Bottom left
+                    ctx.lineTo(x + 50, y + 50); // Bottom right
+                    ctx.closePath();
+                    ctx.fill(); // Draw triangle
+                } else if (obj.type === "rectangle") {
+                    ctx.fillRect(x, y, 70, 40); // Draw rectangles
+                }
+            });
+        }
+
+        // Add click event listener
+        canvas.addEventListener("click", (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const clickedObject = positions.find(
+                (pos) =>
+                    x >= pos.x &&
+                    x <= pos.x + 50 &&
+                    y >= pos.y &&
+                    y <= pos.y + 50
+            );
+
+            if (clickedObject && clickedObject.color === target.color && clickedObject.type === target.type) {
+                message.textContent = "You are a human!";
+                message.style.color = "green";
+            } else {
+                message.textContent = "You might be a bot. Try again!";
+                message.style.color = "red";
+            }
+
+            // Refresh CAPTCHA
+            setTimeout(drawCaptcha, 1000);
+        });
+
+        // Initial draw on page load
+        drawCaptcha();
+    </script>
+</body>
+</html>
