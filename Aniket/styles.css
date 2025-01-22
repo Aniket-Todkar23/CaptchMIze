@@ -1,0 +1,113 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #08214D; /* Updated background color */
+    color: #ffffff; /* Ensure text is readable on the dark background */
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #2563eb;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertically align logo and nav links */
+    padding: 1rem;
+}
+
+.logo img {
+    height: 50px; /* Adjust the height of the logo */
+    width: auto; /* Maintain aspect ratio */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #dbeafe;
+}
+
+/* Main Container Styles */
+.main-container {
+    display: flex;
+    flex-direction: row; /* Arrange text container and slider side by side */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 2rem; /* Add spacing between the two containers */
+    margin: 2rem;
+}
+
+.text-container {
+    flex: 1;
+    max-width: 500px; /* Set a maximum width for better wrapping */
+    text-align: left;
+    word-wrap: break-word; /* Ensure long text wraps properly */
+}
+
+.text-container h1 {
+    font-weight: bold; /* Bold font for the heading */
+}
+
+.text-container p {
+    font-family: 'Inter', sans-serif; /* Set font family for the paragraph */
+}
+
+/* Slider Styles */
+.slider-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Limit the width of the slider */
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+}
+
+.slider-buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.slider-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column; /* Stack the text container and slider vertically */
+    }
+
+    .text-container {
+        text-align: center; /* Center text for smaller screens */
+        max-width: 100%; /* Remove max-width for full width on small screens */
+    }
+}
