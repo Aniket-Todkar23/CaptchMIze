@@ -50,28 +50,39 @@ const fetchNewGif = async (category) => {
     throw new Error("Error fetching new GIF.");
   }
 };
+const availableTemplates = ["index", "captcha"];
 
 // Route to fetch and display GIF captcha
 app.get("/", async (req, res) => {
   try {
-    const category = getRandomCategory();
-    const gifData = await fetchNewGif(category);
+    const randomTemplate = availableTemplates[Math.floor(Math.random() * availableTemplates.length)];
+    
+    if (randomTemplate === "index") {
+      // Fetch data for index.ejs
+      const category = getRandomCategory();
+      const gifData = await fetchNewGif(category);
+      const gifUrl = gifData.images.fixed_height.url;
 
-    const gifUrl = gifData.images.fixed_height.url;
+      // Generate options (one correct and three incorrect)
+      const correctAnswer = category;
+      const options = [...categories.filter((cat) => cat !== category)];
+      options.sort(() => 0.5 - Math.random());
+      const allOptions = [correctAnswer, ...options.slice(0, 3)];
+      allOptions.sort(() => 0.5 - Math.random());
 
-    // Generate options (one correct and three incorrect)
-    const correctAnswer = category;
-    const options = [...categories.filter((cat) => cat !== category)];
-    options.sort(() => 0.5 - Math.random());
-    const allOptions = [correctAnswer, ...options.slice(0, 3)];
-    allOptions.sort(() => 0.5 - Math.random());
-
-    res.render("index", { gifUrl, correctAnswer, options: allOptions });
+      res.render("index", { gifUrl, correctAnswer, options: allOptions });
+    } else if (randomTemplate === "captcha") {
+      // Render captcha.ejs directly (no special data required)
+      res.render("captcha");
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error fetching GIF. Please try again.");
+    res.status(500).send("Error loading the page. Please try again.");
   }
 });
+
+
+
 
 // Start the server
 app.listen(PORT, () => {

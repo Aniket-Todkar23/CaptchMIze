@@ -22,6 +22,7 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: #333;
+            font-display:swap;
         }
     </style>
 </head>
@@ -49,7 +50,6 @@
         const question = document.getElementById("question");
         const timer = document.getElementById("timer");
 
-        // Define the objects with enhanced visuals
         const objects = [
             { type: "circle", color: "red" },
             { type: "circle", color: "blue" },
@@ -66,23 +66,16 @@
         let target, positions, countdownInterval;
 
         function drawCaptcha() {
-            // Clear the canvas and reset the message
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             message.textContent = "";
             timer.textContent = "";
 
-            // Select a random target object (target color and shape)
             target = objects[Math.floor(Math.random() * objects.length)];
-
-            // Display the instruction outside the canvas
             question.textContent = `Click on the ${target.color} ${target.type}`;
 
-            // Draw objects without overlap
             positions = [];
             objects.forEach((obj) => {
                 let x, y, overlaps;
-
-                // Ensure no overlap by checking distances
                 do {
                     x = Math.random() * (canvas.width - 70);
                     y = Math.random() * (canvas.height - 70);
@@ -92,15 +85,13 @@
                     );
                 } while (overlaps);
 
-                const size = Math.random() * 30 + 30; // Random size between 30 and 60
-
+                const size = Math.random() * 30 + 30;
                 positions.push({ ...obj, x, y, size });
 
-                // Draw the object with black borders
                 ctx.save();
-                ctx.translate(x + size / 2, y + size / 2); // Translate to center
+                ctx.translate(x + size / 2, y + size / 2);
                 ctx.fillStyle = obj.color;
-                ctx.strokeStyle = "black"; // Black border for all shapes
+                ctx.strokeStyle = "black";
                 ctx.lineWidth = 2;
 
                 if (obj.type === "circle") {
@@ -128,11 +119,9 @@
                 ctx.restore();
             });
 
-            // Start the countdown timer for auto-refresh
             startTimer();
         }
 
-        // Add click event listener
         canvas.addEventListener("click", (e) => {
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -154,13 +143,12 @@
                 message.style.color = "red";
             }
 
-            // Refresh CAPTCHA immediately
             clearInterval(countdownInterval);
             setTimeout(drawCaptcha, 1000);
         });
 
         function startTimer() {
-            let timeLeft = 10; // 10 seconds countdown
+            let timeLeft = 10;
             timer.textContent = `Refreshing in: ${timeLeft}s`;
 
             countdownInterval = setInterval(() => {
@@ -169,12 +157,11 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(countdownInterval);
-                    drawCaptcha(); // Auto-refresh the CAPTCHA
+                    drawCaptcha();
                 }
             }, 1000);
         }
 
-        // Initial draw on page load
         drawCaptcha();
     </script>
 </body>
