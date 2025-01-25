@@ -226,20 +226,20 @@ function App() {
     {
       name: "Aniket Todkar",
       role: "Full Stack Developer",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
-      linkedin: "https://www.linkedin.com/in/aniket-todkar"
+      image: "https://i.postimg.cc/ZWwYH8Ng/1707634010143.jpg[/img][/url]",
+      linkedin: "https://linkedin.com/in/aniket-todkar-313260288"
     },
     {
       name: "Prasad Umbarkar",
       role: "Backend Developer",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
-      linkedin: "https://www.linkedin.com/in/prasad-umbarkar"
+      image: "https://i.postimg.cc/DSvy1jSL/1707651963072.jpg[/img][/url]",
+      linkedin: "https://linkedin.com/in/prasad-umbarkar-55140928a"
     },
     {
       name: "Soham Gogowale",
       role: "Frontend Developer",
       image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80",
-      linkedin: "https://www.linkedin.com/in/soham-gogowale"
+      linkedin: "https://linkedin.com/in/soham-gogawale-155252291"
     },
     {
       name: "Yash Shah",
