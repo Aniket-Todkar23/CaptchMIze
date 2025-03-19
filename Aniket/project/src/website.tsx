@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, MousePointerClick, Users, ChevronDown, ChevronLeft, ChevronRight, Lock, ShieldCheck, Bot, Linkedin } from 'lucide-react';
+import { Shield, MousePointerClick, Users, ChevronDown, ChevronLeft, ChevronRight, Lock, ShieldCheck, Bot, Linkedin, X } from 'lucide-react';
 
 // Galaxy Background Component
 function GalaxyBackground() {
@@ -51,6 +51,101 @@ function GalaxyBackground() {
   return <div className="stars" />;
 }
 
+function DialogBox({ isOpen, onClose, url, showNotification }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
+  
+  useEffect(() => {
+    // Listen for messages from the iframe to detect successful verification
+    const handleMessage = (event) => {
+      // Make sure origin is trusted
+      if (event.data === 'verification-successful') {
+        setIsVerified(true);
+        // Show success notification
+        if (showNotification) {
+          showNotification('Verification successful!', 'success');
+        }
+        // Dialog will close automatically after 5 seconds via the notification effect
+      }
+    };
+    
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [onClose, showNotification]);
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 animate-fadeIn">
+      <div className="bg-slate-800 rounded-xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col h-[90vh] border border-slate-700">
+        <div className="flex items-center justify-between p-4 bg-slate-900 border-b border-slate-700">
+          <div className="flex items-center space-x-3">
+            <div className="bg-blue-500/20 p-2 rounded-lg">
+              <Lock className="w-5 h-5 text-blue-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-white">Captchamize Demo</h3>
+          </div>
+          <button 
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-slate-700 transition-colors group"
+          >
+            <X className="w-5 h-5 text-gray-400 group-hover:text-white" />
+          </button>
+        </div>
+        
+        <div className="flex-1 relative">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-800 z-10">
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 relative">
+                  <div className="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+                  <Shield className="w-6 h-6 text-blue-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                </div>
+                <p className="mt-4 text-gray-300">Loading secure environment...</p>
+              </div>
+            </div>
+          )}
+          
+          {isVerified && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-800/90 z-20 animate-fadeIn">
+              <div className="flex flex-col items-center bg-slate-900 p-8 rounded-xl border border-green-500/30">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
+                  <ShieldCheck className="w-10 h-10 text-green-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Verification Successful!</h3>
+                <p className="text-gray-300 text-center">You have been verified as human.</p>
+              </div>
+            </div>
+          )}
+          
+          <iframe
+            src={url}
+            title="Captchamize Demo"
+            className="w-full h-full border-0"
+            onLoad={() => setIsLoading(false)}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        
+        <div className="p-4 bg-slate-900 border-t border-slate-700 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <div className={`w-2 h-2 rounded-full ${isLoading ? 'bg-yellow-500 animate-pulse' : 'bg-green-500'}`}></div>
+            <span className="text-sm text-gray-400">
+              {isLoading ? 'Establishing secure connection...' : 'Connection secure'}
+            </span>
+          </div>
+          <button 
+            onClick={onClose}
+            className="px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+          >
+            Close Demo
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 function ImageSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -145,56 +240,6 @@ function ImageSlider() {
   );
 }
 
-function CaptchaDemo() {
-  const [isVerified, setIsVerified] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragProgress, setDragProgress] = useState(0);
-
-  const handleDragStart = () => setIsDragging(true);
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    if (dragProgress > 90) {
-      setIsVerified(true);
-    }
-    setDragProgress(0);
-  };
-
-  const handleDrag = (e: { currentTarget: { getBoundingClientRect: () => any; }; clientX: number; }) => {
-    if (isDragging) {
-      const container = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - container.left;
-      const progress = (x / container.width) * 100;
-      setDragProgress(Math.min(Math.max(progress, 0), 100));
-    }
-  };
-
-  return (
-    <div className="bg-slate-800/80 p-8 rounded-xl shadow-lg backdrop-blur-sm">
-      {!isVerified ? (
-        <div
-          className="relative h-16 bg-slate-700 rounded-lg overflow-hidden cursor-pointer"
-          onMouseDown={handleDragStart}
-          onMouseUp={handleDragEnd}
-          onMouseLeave={handleDragEnd}
-          onMouseMove={handleDrag}
-        >
-          <div
-            className="absolute inset-y-0 left-0 bg-blue-500 transition-all"
-            style={{ width: `${dragProgress}%` }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center text-white">
-            Slide to verify
-          </div>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center space-x-2 text-green-500">
-          <ShieldCheck className="w-6 h-6" />
-          <span>Verification successful!</span>
-        </div>
-      )}
-    </div>
-  );
-}
 
 function TeamMember({ name, role, image, linkedin }) {
   return (
@@ -222,6 +267,54 @@ function TeamMember({ name, role, image, linkedin }) {
 }
 
 function App() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const demoUrl = "https://captchamize.vercel.app/";
+  const [notification, setNotification] = useState({
+    show: false,
+    message: '',
+    type: 'success'
+  });
+  
+  const openDialog = () => setIsDialogOpen(true);
+  const closeDialog = () => setIsDialogOpen(false);
+
+  // Function to show notifications
+  const showNotification = (message, type = 'success') => {
+    setNotification({
+      show: true,
+      message,
+      type
+    });
+    
+    // Set timeout to hide notification after 5 seconds
+    setTimeout(() => {
+      setNotification(prev => ({ ...prev, show: false }));
+    }, 5000);
+  };
+  
+  // Add event listener for messages from the captcha iframe
+  useEffect(() => {
+    const handleCaptchaMessage = (event) => {
+      // Check if the message is from the captcha iframe
+      if (event.data && typeof event.data === 'string') {
+        if (event.data === 'verification-successful') {
+          showNotification('Verification successful!', 'success');
+          
+          // Add timeout to close dialog after notification
+          setTimeout(() => {
+            closeDialog();
+          }, 5000);
+        } else if (event.data.includes('alert') || event.data.includes('error')) {
+          // Handle any alert or error messages from the iframe
+          showNotification('Received message from captcha: ' + event.data, 'error');
+        }
+      }
+    };
+    
+    window.addEventListener('message', handleCaptchaMessage);
+    return () => window.removeEventListener('message', handleCaptchaMessage);
+  }, []);
+
   const teamMembers = [
     {
       name: "Aniket Todkar",
@@ -253,7 +346,26 @@ function App() {
     <div className="min-h-screen galaxy-background">
       <GalaxyBackground />
       
-      <nav className="fixed w-full bg-slate-900/80 backdrop-blur-sm z-50 border-b border-slate-700/50 shadow-lg">
+      <DialogBox 
+        isOpen={isDialogOpen} 
+        onClose={closeDialog} 
+        url={demoUrl} 
+      />
+      
+      {notification.show && (
+        <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-3 rounded-lg shadow-lg z-50 flex items-center space-x-2 transition-all duration-300 ${
+          notification.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+        }`}>
+          {notification.type === 'success' ? (
+            <CheckCircle className="w-5 h-5" />
+          ) : (
+            <XCircle className="w-5 h-5" />
+          )}
+          <p className="font-medium">{notification.message}</p>
+        </div>
+      )}
+      
+      <nav className="fixed w-full bg-slate-900/80 backdrop-blur-sm z-40 border-b border-slate-700/50 shadow-lg">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <a 
@@ -294,7 +406,10 @@ function App() {
                 Advanced bot protection with a human touch. Our AI-powered CAPTCHA system keeps your website secure while providing a seamless user experience.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <button className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all">
+                <button 
+                  className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all"
+                  onClick={openDialog}
+                >
                   Try Demo
                 </button>
                 <button className="px-8 py-3 border border-gray-600 text-white rounded-lg hover:border-blue-500 hover:text-blue-500 hover:scale-105 transition-all">
@@ -318,8 +433,18 @@ function App() {
             Try our next-generation CAPTCHA system that combines security with simplicity. Just slide to verify you're human.
           </p>
           
-          <div className="max-w-md mx-auto mb-16">
-            <CaptchaDemo />
+        
+          <div className="text-center mt-6 mb-12">
+            <button 
+              onClick={openDialog}
+              className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all flex items-center gap-2 mx-auto"
+            >
+              Try Full Demo
+              <ChevronRight className="w-5 h-5" />
+            </button>
+            <p className="text-gray-400 mt-4 text-sm">
+              Access our complete demo without leaving this page
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -390,7 +515,7 @@ function App() {
 
       <footer className="bg-slate-900/80 backdrop-blur-sm py-8 px-4 relative">
         <div className="container mx-auto text-center text-gray-400">
-          <p>&copy; 2024 Captchamize. All rights reserved.</p>
+          <p>&copy; 2025 Captchamize. All rights reserved.</p>
         </div>
       </footer>
     </div>
