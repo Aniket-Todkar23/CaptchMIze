@@ -393,7 +393,7 @@ function App() {
 
       <footer className="bg-slate-900/80 backdrop-blur-sm py-8 px-4 relative">
         <div className="container mx-auto text-center text-gray-400">
-          <p>&copy; 2025 Captchamize. All rights reserved.</p>
+          <p>&copy; 2025 Captchamize.All rights reserved.</p>
         </div>
       </footer>
     </div>
