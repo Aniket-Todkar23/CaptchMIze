@@ -539,15 +539,7 @@ function App() {
         </div>
       </section>
 
-      <section id="contact" className="py-12 px-4 relative">
-        <div className="container mx-auto max-w-lg text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Need Help?</h2>
-          <p className="text-gray-400 mb-6">Contact our support team for assistance</p>
-          <button className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all">
-            Contact Support
-          </button>
-        </div>
-      </section>
+      
 
       <footer className="bg-slate-900/80 backdrop-blur-sm py-8 px-4 relative">
         <div className="container mx-auto text-center text-gray-400">
