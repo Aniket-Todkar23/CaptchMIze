@@ -507,14 +507,14 @@ function App() {
                         )}
                         {i === 5 && (
                           <>
-                            <h3 className="text-lg font-semibold text-white mb-2">Accessibility for Visually Impaired</h3>
-                            <p className="text-gray-400">Compliant with WCAG standards to support screen readers.</p>
+                            <h3 className="text-lg font-semibold text-white mb-2">Engaging Captchas</h3>
+                            <p className="text-gray-400">Enhanced user experience for seamless captcha solving.</p>
                           </>
                         )}
                         {i === 6 && (
                           <>
-                            <h3 className="text-lg font-semibold text-white mb-2">IP Tracking</h3>
-                            <p className="text-gray-400">Monitors previous website visits to identify potential threats.</p>
+                            <h3 className="text-lg font-semibold text-white mb-2">Device Tracking</h3>
+                            <p className="text-gray-400">Monitors the device and adjusts the captcha accordingly.</p>
                           </>
                         )}
                       </div>
