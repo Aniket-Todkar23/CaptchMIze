@@ -405,7 +405,7 @@ function App() {
                 Secure Your Site with <span className="text-blue-500">Smart CAPTCHA</span>
               </h1>
               <p className="text-lg text-gray-300 mb-8 leading-relaxed max-w-lg">
-                Advanced bot protection with a human touch. Our AI-powered CAPTCHA system keeps your website secure while providing a seamless user experience.
+                Advanced bot protection with a human touch. Our CAPTCHA system keeps your website secure while providing a seamless user experience.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <button 
