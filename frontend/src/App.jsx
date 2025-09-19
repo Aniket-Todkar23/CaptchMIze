@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, MousePointerClick, Users, ChevronDown, ChevronLeft, ChevronRight, Lock, ShieldCheck, Bot, Linkedin, X } from 'lucide-react';
 import { CheckCircle, XCircle } from 'lucide-react'; // Added missing import
+import DeveloperPortal from './components/DeveloperPortal';
+import DemoLogin from './components/DemoLogin';
+import DemoDashboard from './components/DemoDashboard';
 
 // Galaxy Background Component
 function GalaxyBackground() {
@@ -275,9 +278,32 @@ function App() {
     message: '',
     type: 'success'
   });
+  // Demo state management
+  const [demoState, setDemoState] = useState('main'); // main, login, dashboard
+  const [demoUser, setDemoUser] = useState(null);
   
   const openDialog = () => setIsDialogOpen(true);
   const closeDialog = () => setIsDialogOpen(false);
+
+  // Demo navigation functions
+  const startDemo = () => {
+    setDemoState('login');
+  };
+
+  const handleDemoLogin = (userData) => {
+    setDemoUser(userData);
+    setDemoState('dashboard');
+  };
+
+  const handleDemoLogout = () => {
+    setDemoUser(null);
+    setDemoState('main');
+    showNotification('Demo session ended. Thank you for trying our CAPTCHA API!', 'success');
+  };
+
+  const backToMain = () => {
+    setDemoState('main');
+  };
 
   // Function to show notifications
   const showNotification = (message, type = 'success') => {
@@ -343,6 +369,27 @@ function App() {
     }
   ];
 
+  // Demo routing
+  if (demoState === 'login') {
+    return (
+      <DemoLogin 
+        onLoginSuccess={handleDemoLogin} 
+        showNotification={showNotification} 
+        onBack={backToMain}
+      />
+    );
+  }
+
+  if (demoState === 'dashboard') {
+    return (
+      <DemoDashboard 
+        user={demoUser} 
+        onLogout={handleDemoLogout} 
+        showNotification={showNotification}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen galaxy-background">
       <GalaxyBackground />
@@ -382,6 +429,7 @@ function App() {
                 { href: '#home', label: 'Home' },
                 { href: '#try', label: 'Try CAPTCHA' },
                 { href: '#features', label: 'Features' },
+                { href: '#developers', label: 'Developers' },
                 { href: '#contact', label: 'Contact' }
               ].map(({ href, label }) => (
                 <a
@@ -410,7 +458,7 @@ function App() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <button 
                   className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all"
-                  onClick={openDialog}
+                  onClick={startDemo}
                 >
                   Try Demo
                 </button>
@@ -437,7 +485,7 @@ function App() {
           
           <div className="text-center mt-6 mb-12">
             <button 
-              onClick={openDialog}
+              onClick={startDemo}
               className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all flex items-center gap-2 mx-auto"
             >
               Try Full Demo
@@ -523,6 +571,43 @@ function App() {
                 ))}
               </div>
 
+        </div>
+      </section>
+
+      <section id="developers" className="py-20 px-4 relative">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">
+            For Developers
+          </h2>
+          <p className="text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+            Integrate our powerful CAPTCHA API into your applications. Get started in minutes with our simple REST API.
+          </p>
+          
+          <DeveloperPortal showNotification={showNotification} />
+          
+          <div className="mt-12 grid md:grid-cols-3 gap-6">
+            <div className="bg-slate-800/30 rounded-lg p-6 text-center">
+              <div className="bg-blue-500/20 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-6 h-6 text-blue-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Easy Integration</h3>
+              <p className="text-gray-400 text-sm">Simple REST API with comprehensive documentation and examples.</p>
+            </div>
+            <div className="bg-slate-800/30 rounded-lg p-6 text-center">
+              <div className="bg-green-500/20 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <MousePointerClick className="w-6 h-6 text-green-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">High Performance</h3>
+              <p className="text-gray-400 text-sm">Fast response times and 99.9% uptime with global CDN support.</p>
+            </div>
+            <div className="bg-slate-800/30 rounded-lg p-6 text-center">
+              <div className="bg-purple-500/20 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Bot className="w-6 h-6 text-purple-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Advanced Analytics</h3>
+              <p className="text-gray-400 text-sm">Detailed usage statistics and real-time monitoring dashboard.</p>
+            </div>
+          </div>
         </div>
       </section>
 
