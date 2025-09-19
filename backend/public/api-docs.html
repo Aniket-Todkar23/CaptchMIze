@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha API Documentation - Professional CAPTCHA Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .nav a {
+            display: block;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        /* Content */
+        .content {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .main {
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 0.5rem 0;
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            margin-left: -1rem;
+            transition: all 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #667eea;
+            border-left-color: #667eea;
+            background-color: #f7fafc;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            color: #4a5568;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        .section h4 {
+            color: #2d3748;
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block .comment {
+            color: #68d391;
+        }
+
+        .code-block .string {
+            color: #fbd38d;
+        }
+
+        .code-block .keyword {
+            color: #63b3ed;
+        }
+
+        .inline-code {
+            background: #e2e8f0;
+            color: #2d3748;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table th {
+            background-color: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-get { background: #c6f6d5; color: #22543d; }
+        .badge-post { background: #bee3f8; color: #1a365d; }
+        .badge-required { background: #fed7d7; color: #742a2a; }
+        .badge-optional { background: #faf089; color: #744210; }
+
+        /* Response examples */
+        .response-example {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .response-header {
+            background: #f7fafc;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .response-body {
+            padding: 1rem;
+        }
+
+        /* Interactive elements */
+        .try-it-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 0.5rem 0;
+        }
+
+        .try-it-button:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .alert-info {
+            background: #ebf8ff;
+            border: 1px solid #bee3f8;
+            color: #2a69ac;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border: 1px solid #fbd38d;
+            color: #c05621;
+        }
+
+        .alert-success {
+            background: #f0fff4;
+            border: 1px solid #c6f6d5;
+            color: #22543d;
+        }
+
+        /* Feature grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+            }
+        }
+
+        /* Syntax highlighting */
+        .json { color: #f8f8f2; }
+        .json-key { color: #66d9ef; }
+        .json-string { color: #a6e22e; }
+        .json-number { color: #ae81ff; }
+        .json-boolean { color: #fd971f; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>🛡️ Captcha API</h1>
+            <p>Professional Multi-Type CAPTCHA Service for Secure Applications</p>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#endpoints">Endpoints</a></li>
+                <li><a href="#captcha-types">Types</a></li>
+                <li><a href="#integration">Integration</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#sdks">SDKs</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <main class="main">
+                <section id="overview" class="section">
+                    <h2>📋 Overview</h2>
+                    <p>Welcome to the Captcha API documentation! Our service provides a comprehensive, secure, and user-friendly CAPTCHA solution that helps protect your applications from bots and automated attacks.</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h4>Multi-Type Support</h4>
+                            <p>GIF, Image, Text, Math, and Puzzle CAPTCHAs</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔐</div>
+                            <h4>Secure & Reliable</h4>
+                            <p>API key authentication and rate limiting</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h4>Analytics</h4>
+                            <p>Detailed usage statistics and monitoring</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h4>High Performance</h4>
+                            <p>Fast response times and 99.9% uptime</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>🚀 Getting Started:</strong> Register for a free API key to start protecting your application with our CAPTCHA service.
+                    </div>
+                </section>
+
+                <section id="authentication" class="section">
+                    <h2>🔑 Authentication</h2>
+                    <p>All API requests require authentication using an API key. You can obtain your API key by registering through our service.</p>
+
+                    <h3>API Key Registration</h3>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/api/register</span>
+<span class="keyword">Content-Type:</span> application/json
+
+{
+  <span class="json-key">"email"</span>: <span class="json-string">"your@email.com"</span>,
+  <span class="json-key">"name"</span>: <span class="json-string">"Your Name"</span>,
+  <span class="json-key">"keyName"</span>: <span class="json-string">"My App Key"</span> <span class="comment">// optional</span>
+}
+                    </div>
+
+                    <h3>Using Your API Key</h3>
+                    <p>Include your API key in requests using one of these methods:</p>
+
+                    <h4>Header (Recommended)</h4>
+                    <div class="code-block">
+<span class="keyword">X-API-Key:</span> <span class="string">your-api-key-here</span>
+                    </div>
+
+                    <h4>Query Parameter</h4>
+                    <div class="code-block">
+<span class="string">?api_key=your-api-key-here</span>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>🔒 Security Note:</strong> Never expose your API key in client-side code. Always make API calls from your backend server.
+                    </div>
+                </section>
+
+                <section id="endpoints" class="section">
+                    <h2>🌐 API Endpoints</h2>
+                    
+                    <h3><span class="badge badge-post">POST</span> Register for API Key</h3>
+                    <p><strong>Endpoint:</strong> <code class="inline-code">/api/register</code></p>
+                    <p><strong>Authentication:</strong> Not required</p>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>email</td>
+                                <td>string</td>
+                                <td><span class="badge badge-required">Required</span></td>
+                                <td>Your email address</td>
+                            </tr>
+                            <tr>
+                                <td>name</td>
+                                <td>string</td>
+                                <td><span class="badge badge-required">Required</span></td>
+                                <td>Your full name</td>
+                            </tr>
+                            <tr>
+                                <td>keyName</td>
+                                <td>string</td>
+                                <td><span class="badge badge-optional">Optional</span></td>
+                                <td>Custom name for your API key</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="response-example">
+                        <div class="response-header">Response (201 Created)</div>
+                        <div class="response-body">
+                            <div class="code-block">
+{
+  <span class="json-key">"success"</span>: <span class="json-boolean">true</span>,
+  <span class="json-key">"message"</span>: <span class="json-string">"API key generated successfully"</span>,
+  <span class="json-key">"data"</span>: {
+    <span class="json-key">"apiKey"</span>: <span class="json-string">"captcha_abc123def456..."</span>,
+    <span class="json-key">"user"</span>: {
+      <span class="json-key">"id"</span>: <span class="json-number">1</span>,
+      <span class="json-key">"email"</span>: <span class="json-string">"your@email.com"</span>,
+      <span class="json-key">"name"</span>: <span class="json-string">"Your Name"</span>
+    },
+    <span class="json-key">"rateLimit"</span>: <span class="json-string">"1000 requests per hour"</span>
+  }
+}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3><span class="badge badge-get">GET</span> Generate CAPTCHA</h3>
+                    <p><strong>Endpoint:</strong> <code class="inline-code">/api/captcha/generate</code></p>
+                    <p><strong>Authentication:</strong> Required</p>
+                    
+                    <h4>Query Parameters</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>string</td>
+                                <td><span class="badge badge-optional">Optional</span></td>
+                                <td>Specific CAPTCHA type (gif, image, text, math, puzzle)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="response-example">
+                        <div class="response-header">Response (200 OK)</div>
+                        <div class="response-body">
+                            <div class="code-block">
+{
+  <span class="json-key">"success"</span>: <span class="json-boolean">true</span>,
+  <span class="json-key">"data"</span>: {
+    <span class="json-key">"sessionId"</span>: <span class="json-string">"uuid-session-id"</span>,
+    <span class="json-key">"type"</span>: <span class="json-string">"gif"</span>,
+    <span class="json-key">"question"</span>: <span class="json-string">"What category does this GIF belong to?"</span>,
+    <span class="json-key">"mediaUrl"</span>: <span class="json-string">"https://media.giphy.com/media/xyz/giphy.gif"</span>,
+    <span class="json-key">"options"</span>: [<span class="json-string">"animals"</span>, <span class="json-string">"vehicles"</span>, <span class="json-string">"sports"</span>, <span class="json-string">"buildings"</span>],
+    <span class="json-key">"expiresIn"</span>: <span class="json-number">10</span> <span class="comment">// minutes</span>
+  }
+}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3><span class="badge badge-post">POST</span> Verify CAPTCHA</h3>
+                    <p><strong>Endpoint:</strong> <code class="inline-code">/api/captcha/verify</code></p>
+                    <p><strong>Authentication:</strong> Required</p>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>sessionId</td>
+                                <td>string</td>
+                                <td><span class="badge badge-required">Required</span></td>
+                                <td>Session ID from generate response</td>
+                            </tr>
+                            <tr>
+                                <td>answer</td>
+                                <td>string</td>
+                                <td><span class="badge badge-required">Required</span></td>
+                                <td>User's answer to the CAPTCHA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="response-example">
+                        <div class="response-header">Success Response (200 OK)</div>
+                        <div class="response-body">
+                            <div class="code-block">
+{
+  <span class="json-key">"success"</span>: <span class="json-boolean">true</span>,
+  <span class="json-key">"verified"</span>: <span class="json-boolean">true</span>,
+  <span class="json-key">"message"</span>: <span class="json-string">"Captcha verified successfully"</span>,
+  <span class="json-key">"captchaType"</span>: <span class="json-string">"gif"</span>
+}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="response-example">
+                        <div class="response-header">Error Response (400 Bad Request)</div>
+                        <div class="response-body">
+                            <div class="code-block">
+{
+  <span class="json-key">"success"</span>: <span class="json-boolean">false</span>,
+  <span class="json-key">"verified"</span>: <span class="json-boolean">false</span>,
+  <span class="json-key">"message"</span>: <span class="json-string">"Incorrect answer"</span>,
+  <span class="json-key">"code"</span>: <span class="json-string">"INCORRECT_ANSWER"</span>,
+  <span class="json-key">"remainingAttempts"</span>: <span class="json-number">2</span>
+}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3><span class="badge badge-get">GET</span> Usage Statistics</h3>
+                    <p><strong>Endpoint:</strong> <code class="inline-code">/api/usage</code></p>
+                    <p><strong>Authentication:</strong> Required</p>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>timeframe</td>
+                                <td>string</td>
+                                <td><span class="badge badge-optional">Optional</span></td>
+                                <td>1h, 24h, 7d, 30d (default: 24h)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="captcha-types" class="section">
+                    <h2>🎭 CAPTCHA Types</h2>
+                    <p>Our API supports multiple CAPTCHA types to provide variety and enhanced security:</p>
+
+                    <h3>🎬 GIF CAPTCHA</h3>
+                    <p><strong>Type:</strong> <code class="inline-code">gif</code></p>
+                    <p>Users identify the category of an animated GIF (animals, vehicles, sports, buildings, cartoons, actions).</p>
+                    
+                    <div class="code-block">
+<span class="comment">// Example response</span>
+{
+  <span class="json-key">"type"</span>: <span class="json-string">"gif"</span>,
+  <span class="json-key">"question"</span>: <span class="json-string">"What category does this GIF belong to?"</span>,
+  <span class="json-key">"mediaUrl"</span>: <span class="json-string">"https://media.giphy.com/..."</span>,
+  <span class="json-key">"options"</span>: [<span class="json-string">"animals"</span>, <span class="json-string">"vehicles"</span>, <span class="json-string">"sports"</span>, <span class="json-string">"buildings"</span>]
+}
+                    </div>
+
+                    <h3>🖼️ IMAGE CAPTCHA</h3>
+                    <p><strong>Type:</strong> <code class="inline-code">image</code></p>
+                    <p>Users identify the main subject of a static image.</p>
+                    
+                    <div class="code-block">
+<span class="comment">// Example response</span>
+{
+  <span class="json-key">"type"</span>: <span class="json-string">"image"</span>,
+  <span class="json-key">"question"</span>: <span class="json-string">"What is the main subject of this image?"</span>,
+  <span class="json-key">"mediaUrl"</span>: <span class="json-string">"data:image/jpeg;base64,..."</span>,
+  <span class="json-key">"options"</span>: [<span class="json-string">"animals"</span>, <span class="json-string">"vehicles"</span>, <span class="json-string">"sports"</span>, <span class="json-string">"buildings"</span>]
+}
+                    </div>
+
+                    <h3>📝 TEXT CAPTCHA</h3>
+                    <p><strong>Type:</strong> <code class="inline-code">text</code></p>
+                    <p>Users enter the text shown in a distorted image.</p>
+                    
+                    <div class="code-block">
+<span class="comment">// Example response</span>
+{
+  <span class="json-key">"type"</span>: <span class="json-string">"text"</span>,
+  <span class="json-key">"question"</span>: <span class="json-string">"Enter the text shown in the image"</span>,
+  <span class="json-key">"mediaUrl"</span>: <span class="json-string">"data:image/png;base64,..."</span>,
+  <span class="json-key">"inputType"</span>: <span class="json-string">"text"</span>
+}
+                    </div>
+
+                    <h3>🧮 MATH CAPTCHA</h3>
+                    <p><strong>Type:</strong> <code class="inline-code">math</code></p>
+                    <p>Users solve simple mathematical equations.</p>
+                    
+                    <div class="code-block">
+<span class="comment">// Example response</span>
+{
+  <span class="json-key">"type"</span>: <span class="json-string">"math"</span>,
+  <span class="json-key">"question"</span>: <span class="json-string">"What is 15 + 7?"</span>,
+  <span class="json-key">"options"</span>: [<span class="json-string">"22"</span>, <span class="json-string">"21"</span>, <span class="json-string">"23"</span>, <span class="json-string">"20"</span>]
+}
+                    </div>
+
+                    <h3>🧩 PUZZLE CAPTCHA</h3>
+                    <p><strong>Type:</strong> <code class="inline-code">puzzle</code></p>
+                    <p>Users answer logical puzzles and reasoning questions.</p>
+                    
+                    <div class="code-block">
+<span class="comment">// Example response</span>
+{
+  <span class="json-key">"type"</span>: <span class="json-string">"puzzle"</span>,
+  <span class="json-key">"question"</span>: <span class="json-string">"Complete the sequence: 2, 4, 6, 8, ?"</span>,
+  <span class="json-key">"options"</span>: [<span class="json-string">"9"</span>, <span class="json-string">"10"</span>, <span class="json-string">"11"</span>, <span class="json-string">"12"</span>]
+}
+                    </div>
+                </section>
+
+                <section id="integration" class="section">
+                    <h2>🔧 Integration Guide</h2>
+                    
+                    <h3>Step 1: Register for API Key</h3>
+                    <div class="code-block">
+<span class="keyword">curl</span> -X POST https://your-api.com/api/register \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{
+    "email": "developer@company.com",
+    "name": "John Developer",
+    "keyName": "Production API Key"
+  }'</span>
+                    </div>
+
+                    <h3>Step 2: Generate CAPTCHA</h3>
+                    <div class="code-block">
+<span class="keyword">curl</span> -X GET https://your-api.com/api/captcha/generate \
+  -H <span class="string">"X-API-Key: your-api-key"</span>
+                    </div>
+
+                    <h3>Step 3: Present CAPTCHA to User</h3>
+                    <p>Display the CAPTCHA challenge to your user based on the type returned:</p>
+                    <ul>
+                        <li><strong>GIF/Image:</strong> Show the media and present multiple choice options</li>
+                        <li><strong>Text:</strong> Show the distorted text image and provide a text input</li>
+                        <li><strong>Math/Puzzle:</strong> Display the question and provide multiple choice options</li>
+                    </ul>
+
+                    <h3>Step 4: Verify Answer</h3>
+                    <div class="code-block">
+<span class="keyword">curl</span> -X POST https://your-api.com/api/captcha/verify \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -H <span class="string">"X-API-Key: your-api-key"</span> \
+  -d <span class="string">'{
+    "sessionId": "session-id-from-generate",
+    "answer": "user-provided-answer"
+  }'</span>
+                    </div>
+
+                    <h3>Step 5: Handle Response</h3>
+                    <p>Based on the verification response, allow or deny user access to your application.</p>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Best Practice:</strong> Always validate CAPTCHA on your backend server before processing user actions.
+                    </div>
+                </section>
+
+                <section id="examples" class="section">
+                    <h2>💻 Code Examples</h2>
+
+                    <h3>JavaScript/Node.js</h3>
+                    <div class="code-block">
+<span class="keyword">const</span> axios = <span class="keyword">require</span>(<span class="string">'axios'</span>);
+
+<span class="keyword">class</span> CaptchaAPI {
+  <span class="keyword">constructor</span>(apiKey) {
+    <span class="keyword">this</span>.apiKey = apiKey;
+    <span class="keyword">this</span>.baseURL = <span class="string">'https://your-api.com/api'</span>;
+  }
+
+  <span class="keyword">async</span> generateCaptcha(type = null) {
+    <span class="keyword">const</span> params = type ? { type } : {};
+    <span class="keyword">const</span> response = <span class="keyword">await</span> axios.get(<span class="string">`</span><span class="json-string">${this.baseURL}</span><span class="string">/captcha/generate`</span>, {
+      headers: { <span class="string">'X-API-Key'</span>: <span class="keyword">this</span>.apiKey },
+      params
+    });
+    <span class="keyword">return</span> response.data.data;
+  }
+
+  <span class="keyword">async</span> verifyCaptcha(sessionId, answer) {
+    <span class="keyword">const</span> response = <span class="keyword">await</span> axios.post(<span class="string">`</span><span class="json-string">${this.baseURL}</span><span class="string">/captcha/verify`</span>, {
+      sessionId, answer
+    }, {
+      headers: { 
+        <span class="string">'X-API-Key'</span>: <span class="keyword">this</span>.apiKey,
+        <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+      }
+    });
+    <span class="keyword">return</span> response.data;
+  }
+}
+
+<span class="comment">// Usage</span>
+<span class="keyword">const</span> captcha = <span class="keyword">new</span> CaptchaAPI(<span class="string">'your-api-key'</span>);
+
+<span class="comment">// Generate CAPTCHA</span>
+<span class="keyword">const</span> challenge = <span class="keyword">await</span> captcha.generateCaptcha();
+console.log(<span class="string">'Challenge:'</span>, challenge);
+
+<span class="comment">// Verify answer</span>
+<span class="keyword">const</span> result = <span class="keyword">await</span> captcha.verifyCaptcha(challenge.sessionId, <span class="string">'animals'</span>);
+console.log(<span class="string">'Verified:'</span>, result.verified);
+                    </div>
+
+                    <h3>Python</h3>
+                    <div class="code-block">
+<span class="keyword">import</span> requests
+
+<span class="keyword">class</span> CaptchaAPI:
+    <span class="keyword">def</span> __init__(self, api_key):
+        self.api_key = api_key
+        self.base_url = <span class="string">'https://your-api.com/api'</span>
+        self.headers = {<span class="string">'X-API-Key'</span>: api_key}
+    
+    <span class="keyword">def</span> generate_captcha(self, captcha_type=None):
+        params = {<span class="string">'type'</span>: captcha_type} <span class="keyword">if</span> captcha_type <span class="keyword">else</span> {}
+        response = requests.get(
+            <span class="string">f'{self.base_url}/captcha/generate'</span>,
+            headers=self.headers,
+            params=params
+        )
+        <span class="keyword">return</span> response.json()[<span class="string">'data'</span>]
+    
+    <span class="keyword">def</span> verify_captcha(self, session_id, answer):
+        response = requests.post(
+            <span class="string">f'{self.base_url}/captcha/verify'</span>,
+            headers={**self.headers, <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+            json={<span class="string">'sessionId'</span>: session_id, <span class="string">'answer'</span>: answer}
+        )
+        <span class="keyword">return</span> response.json()
+
+<span class="comment"># Usage</span>
+captcha = CaptchaAPI(<span class="string">'your-api-key'</span>)
+
+<span class="comment"># Generate CAPTCHA</span>
+challenge = captcha.generate_captcha()
+print(<span class="string">f"Challenge type: {challenge['type']}"</span>)
+
+<span class="comment"># Verify answer</span>
+result = captcha.verify_captcha(challenge[<span class="string">'sessionId'</span>], <span class="string">'animals'</span>)
+print(<span class="string">f"Verified: {result['verified']}"</span>)
+                    </div>
+
+                    <h3>PHP</h3>
+                    <div class="code-block">
+<span class="string">&lt;?php</span>
+
+<span class="keyword">class</span> CaptchaAPI {
+    <span class="keyword">private</span> $apiKey;
+    <span class="keyword">private</span> $baseUrl = <span class="string">'https://your-api.com/api'</span>;
+    
+    <span class="keyword">public function</span> __construct($apiKey) {
+        $<span class="keyword">this</span>->apiKey = $apiKey;
+    }
+    
+    <span class="keyword">public function</span> generateCaptcha($type = null) {
+        $url = $<span class="keyword">this</span>->baseUrl . <span class="string">'/captcha/generate'</span>;
+        <span class="keyword">if</span> ($type) {
+            $url .= <span class="string">'?type='</span> . urlencode($type);
+        }
+        
+        $response = <span class="keyword">file_get_contents</span>($url, false, <span class="keyword">stream_context_create</span>([
+            <span class="string">'http'</span> => [
+                <span class="string">'header'</span> => <span class="string">'X-API-Key: '</span> . $<span class="keyword">this</span>->apiKey
+            ]
+        ]));
+        
+        <span class="keyword">return</span> <span class="keyword">json_decode</span>($response, true)[<span class="string">'data'</span>];
+    }
+    
+    <span class="keyword">public function</span> verifyCaptcha($sessionId, $answer) {
+        $data = <span class="keyword">json_encode</span>([
+            <span class="string">'sessionId'</span> => $sessionId,
+            <span class="string">'answer'</span> => $answer
+        ]);
+        
+        $response = <span class="keyword">file_get_contents</span>($<span class="keyword">this</span>->baseUrl . <span class="string">'/captcha/verify'</span>, false, 
+            <span class="keyword">stream_context_create</span>([
+                <span class="string">'http'</span> => [
+                    <span class="string">'method'</span> => <span class="string">'POST'</span>,
+                    <span class="string">'header'</span> => <span class="string">'X-API-Key: '</span> . $<span class="keyword">this</span>->apiKey . <span class="string">"\r\n"</span> .
+                                <span class="string">'Content-Type: application/json'</span>,
+                    <span class="string">'content'</span> => $data
+                ]
+            ])
+        );
+        
+        <span class="keyword">return</span> <span class="keyword">json_decode</span>($response, true);
+    }
+}
+
+<span class="comment">// Usage</span>
+$captcha = <span class="keyword">new</span> CaptchaAPI(<span class="string">'your-api-key'</span>);
+
+<span class="comment">// Generate CAPTCHA</span>
+$challenge = $captcha->generateCaptcha();
+<span class="keyword">echo</span> <span class="string">"Challenge type: "</span> . $challenge[<span class="string">'type'</span>] . <span class="string">"\n"</span>;
+
+<span class="comment">// Verify answer</span>
+$result = $captcha->verifyCaptcha($challenge[<span class="string">'sessionId'</span>], <span class="string">'animals'</span>);
+<span class="keyword">echo</span> <span class="string">"Verified: "</span> . ($result[<span class="string">'verified'</span>] ? <span class="string">'true'</span> : <span class="string">'false'</span>) . <span class="string">"\n"</span>;
+
+<span class="string">?></span>
+                    </div>
+                </section>
+
+                <section id="sdks" class="section">
+                    <h2>📦 SDKs & Libraries</h2>
+                    <p>We provide official SDKs and community-maintained libraries for popular programming languages:</p>
+
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📜</div>
+                            <h4>JavaScript/Node.js</h4>
+                            <p>npm install @captcha-api/nodejs</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🐍</div>
+                            <h4>Python</h4>
+                            <p>pip install captcha-api-python</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🐘</div>
+                            <h4>PHP</h4>
+                            <p>composer require captcha-api/php</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">☕</div>
+                            <h4>Java</h4>
+                            <p>Available on Maven Central</p>
+                        </div>
+                    </div>
+
+                    <h3>Frontend Libraries</h3>
+                    <p>For client-side integration (remember to proxy through your backend):</p>
+                    
+                    <div class="code-block">
+<span class="comment">// React Component Example</span>
+<span class="keyword">import</span> { CaptchaWidget } <span class="keyword">from</span> <span class="string">'@captcha-api/react'</span>;
+
+<span class="keyword">function</span> LoginForm() {
+  <span class="keyword">const</span> handleCaptchaSuccess = (token) => {
+    <span class="comment">// Send token to your backend for verification</span>
+    console.log(<span class="string">'Captcha verified:'</span>, token);
+  };
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">form</span>&gt;
+      <span class="comment">{/* Your form fields */}</span>
+      &lt;<span class="keyword">CaptchaWidget</span> 
+        apiEndpoint=<span class="string">"/api/captcha"</span>
+        onSuccess={handleCaptchaSuccess}
+      /&gt;
+      &lt;<span class="keyword">button</span> type=<span class="string">"submit"</span>&gt;Login&lt;/<span class="keyword">button</span>&gt;
+    &lt;/<span class="keyword">form</span>&gt;
+  );
+}
+                    </div>
+                </section>
+
+                <section id="support" class="section">
+                    <h2>🆘 Support & Resources</h2>
+                    
+                    <h3>Rate Limits</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Rate Limit</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>/api/captcha/generate</td>
+                                <td>1000/hour</td>
+                                <td>Per API key</td>
+                            </tr>
+                            <tr>
+                                <td>/api/captcha/verify</td>
+                                <td>1000/hour</td>
+                                <td>Per API key</td>
+                            </tr>
+                            <tr>
+                                <td>/api/usage</td>
+                                <td>100/hour</td>
+                                <td>Per API key</td>
+                            </tr>
+                            <tr>
+                                <td>/api/register</td>
+                                <td>10/hour</td>
+                                <td>Per IP address</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Error Codes</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>HTTP Status</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>MISSING_API_KEY</td><td>401</td><td>API key not provided</td></tr>
+                            <tr><td>INVALID_API_KEY</td><td>401</td><td>API key is invalid or inactive</td></tr>
+                            <tr><td>RATE_LIMIT_EXCEEDED</td><td>429</td><td>Too many requests</td></tr>
+                            <tr><td>INVALID_SESSION</td><td>404</td><td>Session not found or expired</td></tr>
+                            <tr><td>INCORRECT_ANSWER</td><td>400</td><td>Wrong CAPTCHA answer</td></tr>
+                            <tr><td>GENERATION_ERROR</td><td>500</td><td>Error generating CAPTCHA</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Getting Help</h3>
+                    <div class="alert alert-info">
+                        <strong>📧 Support:</strong> For technical support, email us at <a href="mailto:support@captcha-api.com">support@captcha-api.com</a><br>
+                        <strong>🐛 Bug Reports:</strong> Report issues on our <a href="https://github.com/captcha-api/issues">GitHub Issues</a><br>
+                        <strong>💬 Community:</strong> Join our <a href="https://discord.gg/captcha-api">Discord Community</a> for discussions and help
+                    </div>
+
+                    <h3>Status Page</h3>
+                    <p>Monitor our API status and uptime at <a href="https://status.captcha-api.com">status.captcha-api.com</a></p>
+
+                    <button class="try-it-button" onclick="testApi()">🧪 Test API Connection</button>
+                    
+                    <div id="test-result" style="margin-top: 1rem;"></div>
+                </section>
+            </main>
+
+            <aside class="sidebar">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#authentication">Authentication</a></li>
+                    <li><a href="#endpoints">API Endpoints</a></li>
+                    <li><a href="#captcha-types">CAPTCHA Types</a></li>
+                    <li><a href="#integration">Integration Guide</a></li>
+                    <li><a href="#examples">Code Examples</a></li>
+                    <li><a href="#sdks">SDKs & Libraries</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="/api/health">API Health</a></li>
+                    <li><a href="/api/docs">Interactive Docs</a></li>
+                    <li><a href="https://github.com/captcha-api">GitHub</a></li>
+                    <li><a href="https://status.captcha-api.com">Status Page</a></li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        async function testApi() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.innerHTML = '<div style="color: #667eea;">Testing API connection...</div>';
+            
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'healthy') {
+                    resultDiv.innerHTML = `
+                        <div style="background: #f0fff4; border: 1px solid #c6f6d5; color: #22543d; padding: 1rem; border-radius: 6px;">
+                            <strong>✅ API is healthy!</strong><br>
+                            Status: ${data.status}<br>
+                            Uptime: ${Math.round(data.uptime)} seconds<br>
+                            Version: ${data.version}
+                        </div>
+                    `;
+                } else {
+                    throw new Error('API returned non-healthy status');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fed7d7; border: 1px solid #fc8181; color: #742a2a; padding: 1rem; border-radius: 6px;">
+                        <strong>❌ Connection failed</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
