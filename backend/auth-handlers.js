@@ -141,8 +141,13 @@ const logUsage = async (req, res, next) => {
 
 // CORS Middleware for API access
 const corsMiddleware = (req, res, next) => {
-  // Allow all origins for API access
-  res.header('Access-Control-Allow-Origin', '*');
+  // Get allowed origins from environment or default to all
+  const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['*'];
+  const origin = req.headers.origin;
+  
+  if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', allowedOrigins.includes('*') ? '*' : origin);
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, X-API-Key, Authorization, Cache-Control, Pragma');
   res.header('Access-Control-Expose-Headers', 'X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-Request-ID');
