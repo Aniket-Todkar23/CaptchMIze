@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Code, Key, Copy, CheckCircle, XCircle, Eye, EyeOff, ExternalLink, Book, Activity } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/environment';
 
 const DeveloperPortal = ({ showNotification }) => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const DeveloperPortal = ({ showNotification }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/register', {
+      const response = await fetch(API_ENDPOINTS.REGISTER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ const DeveloperPortal = ({ showNotification }) => {
     if (!apiKey) return;
 
     try {
-      const response = await fetch('http://localhost:3001/api/captcha/generate', {
+      const response = await fetch(API_ENDPOINTS.CAPTCHA_GENERATE, {
         headers: {
           'X-API-Key': apiKey
         }
@@ -87,7 +88,7 @@ const DeveloperPortal = ({ showNotification }) => {
     if (!apiKey) return;
 
     try {
-      const response = await fetch('http://localhost:3001/api/usage?timeframe=24h', {
+      const response = await fetch(`${API_ENDPOINTS.USAGE}?timeframe=24h`, {
         headers: {
           'X-API-Key': apiKey
         }

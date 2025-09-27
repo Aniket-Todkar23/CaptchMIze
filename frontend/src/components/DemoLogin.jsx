@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Lock, Eye, EyeOff, Shield, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import CaptchaDisplay from './CaptchaDisplay';
+import { API_ENDPOINTS } from '../config/environment';
 
 const DemoLogin = ({ onLoginSuccess, showNotification, onBack }) => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const DemoLogin = ({ onLoginSuccess, showNotification, onBack }) => {
 
   const generateDemoApiKey = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/register', {
+      const response = await fetch(API_ENDPOINTS.REGISTER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ const DemoLogin = ({ onLoginSuccess, showNotification, onBack }) => {
     
     setCaptchaLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/captcha/generate', {
+      const response = await fetch(API_ENDPOINTS.CAPTCHA_GENERATE, {
         headers: {
           'X-API-Key': keyToUse
         }
@@ -112,7 +113,7 @@ const DemoLogin = ({ onLoginSuccess, showNotification, onBack }) => {
 
     try {
       // First verify captcha
-      const captchaResponse = await fetch('http://localhost:3001/api/captcha/verify', {
+      const captchaResponse = await fetch(API_ENDPOINTS.CAPTCHA_VERIFY, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

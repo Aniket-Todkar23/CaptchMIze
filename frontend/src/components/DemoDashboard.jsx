@@ -4,6 +4,7 @@ import {
   CheckCircle, Clock, Globe, Key, RefreshCw, Eye, Copy,
   TrendingUp, Users, Server, Zap
 } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/environment';
 
 const DemoDashboard = ({ user, onLogout, showNotification }) => {
   const [usageStats, setUsageStats] = useState(null);
@@ -21,7 +22,7 @@ const DemoDashboard = ({ user, onLogout, showNotification }) => {
 
   const loadUsageStats = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/usage?timeframe=24h', {
+      const response = await fetch(`${API_ENDPOINTS.USAGE}?timeframe=24h`, {
         headers: {
           'X-API-Key': user.apiKey
         }
@@ -47,7 +48,7 @@ const DemoDashboard = ({ user, onLogout, showNotification }) => {
 
   const testApiKey = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/captcha/generate', {
+      const response = await fetch(API_ENDPOINTS.CAPTCHA_GENERATE, {
         headers: {
           'X-API-Key': user.apiKey
         }
