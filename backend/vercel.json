@@ -12,9 +12,9 @@
       "dest": "api-server.js"
     }
   ],
-  "env": {
-    "NODE_ENV": "production",
-    "DATABASE_URL": "@database_url",
-    "POSTGRES_URL": "@database_url"
+  "functions": {
+    "api-server.js": {
+      "runtime": "nodejs20.x"
+    }
   }
 }

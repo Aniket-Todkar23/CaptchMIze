@@ -1,0 +1,27 @@
+# Development files
+.env
+.env.*
+*.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Demo and test files
+demo-app.js
+demo-server.js
+d.js
+database-sqlite.js
+test-integration.js
+start-api.js
+
+# Migration scripts
+migrate-to-postgres.ps1
+
+# Static files
+index.html
+tailwind.config.js
+
+# Documentation
+README.md
