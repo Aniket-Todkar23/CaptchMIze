@@ -250,7 +250,7 @@ function TeamMember({ name, role, image, linkedin }) {
     <div className="bg-slate-800/50 p-6 rounded-xl shadow-lg backdrop-blur-sm hover:transform hover:scale-105 transition-all">
       <div className="text-center">
         <img
-          src="/api/placeholder/128/128"
+          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=128&h=128&q=80"
           alt={name}
           className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
         />
@@ -346,25 +346,25 @@ function App() {
     {
       name: "Aniket Todkar",
       role: "Full Stack Developer",
-      image: "/api/placeholder/128/128",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128&q=80",
       linkedin: "https://linkedin.com/in/aniket-todkar-313260288"
     },
     {
       name: "Prasad Umbarkar",
       role: "Backend Developer",
-      image: "/api/placeholder/128/128",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128&q=80",
       linkedin: "https://linkedin.com/in/prasad-umbarkar-55140928a"
     },
     {
       name: "Soham Gogowale",
       role: "Frontend Developer",
-      image: "/api/placeholder/128/128",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128&q=80",
       linkedin: "https://linkedin.com/in/soham-gogawale-155252291"
     },
     {
       name: "Yash Shah",
       role: "UI/UX Designer",
-      image: "/api/placeholder/128/128",
+      image: "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128&q=80",
       linkedin: "https://www.linkedin.com/in/yash-shah"
     }
   ];

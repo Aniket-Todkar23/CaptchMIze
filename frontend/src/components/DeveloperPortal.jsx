@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Code, Key, Copy, CheckCircle, XCircle, Eye, EyeOff, ExternalLink, Book, Activity } from 'lucide-react';
-import { API_ENDPOINTS } from '../config/environment';
+import { ENV, API_ENDPOINTS } from '../config/environment';
 
 const DeveloperPortal = ({ showNotification }) => {
   const [formData, setFormData] = useState({
@@ -243,7 +243,7 @@ const DeveloperPortal = ({ showNotification }) => {
                 <span>View Usage</span>
               </button>
               <a
-                href="http://localhost:3001/api/docs"
+                href={API_ENDPOINTS.DOCS}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-gray-500/20 text-gray-400 border border-gray-500/30 rounded-lg hover:bg-gray-500/30 transition-colors flex items-center space-x-2"
@@ -285,14 +285,14 @@ const DeveloperPortal = ({ showNotification }) => {
               <div className="bg-slate-800 rounded p-3">
                 <p className="text-gray-300 mb-2">1. Generate a CAPTCHA:</p>
                 <code className="text-green-400 break-all">
-                  GET http://localhost:3001/api/captcha/generate
+                  GET {API_ENDPOINTS.CAPTCHA_GENERATE}
                   <br />Header: X-API-Key: {apiKey.substring(0, 20)}...
                 </code>
               </div>
               <div className="bg-slate-800 rounded p-3">
                 <p className="text-gray-300 mb-2">2. Verify the answer:</p>
                 <code className="text-green-400 break-all">
-                  POST http://localhost:3001/api/captcha/verify
+                  POST {API_ENDPOINTS.CAPTCHA_VERIFY}
                   <br />Body: {`{"sessionId": "...", "answer": "animals"}`}
                 </code>
               </div>
