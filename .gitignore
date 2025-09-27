@@ -2,7 +2,8 @@
 .env
 .env.local
 .env.development
-.env.production
+# Allow production env for deployment
+# .env.production
 
 # Database files
 *.db
