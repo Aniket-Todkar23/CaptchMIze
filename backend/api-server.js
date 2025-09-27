@@ -22,7 +22,7 @@ const {
   logUsage,
   corsMiddleware,
   errorHandler
-} = require('./auth-middleware');
+} = require('./auth-handlers');
 
 const app = express();
 const PORT = process.env.PORT || 3001; // Use different port from main app
